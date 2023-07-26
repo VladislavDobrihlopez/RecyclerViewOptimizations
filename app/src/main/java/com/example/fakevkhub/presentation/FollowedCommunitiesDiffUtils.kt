@@ -27,4 +27,11 @@ class FollowedCommunitiesDiffUtils(
         }
         return getDiffItemCallback(newItem).areContentsTheSame(oldItem, newItem)
     }
+
+    override fun getChangePayload(oldItem: Item, newItem: Item): Any? {
+        if (oldItem::class != newItem::class) {
+            return false
+        }
+        return getDiffItemCallback(oldItem).getChangePayload(oldItem, newItem)
+    }
 }

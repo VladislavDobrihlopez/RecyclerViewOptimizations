@@ -1,5 +1,6 @@
 package com.example.fakevkhub.presentation.delegates
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -8,6 +9,7 @@ import com.example.fakevkhub.databinding.CommunityItemBinding
 import com.example.fakevkhub.presentation.uimodels.CommunityUiModel
 import com.example.fakevkhub.presentation.uimodels.Item
 import com.example.fakevkhub.presentation.viewholders.BaseViewHolder
+import com.example.fakevkhub.presentation.viewholders.FollowedCommunitiesPayloads
 import com.example.fakevkhub.presentation.viewholders.FollowedCommunityCardViewHolder
 
 class FollowedCommunitiesDelegateAdapter(
@@ -27,6 +29,18 @@ class FollowedCommunitiesDelegateAdapter(
                 newItem: CommunityUiModel
             ): Boolean {
                 return oldItem == newItem
+            }
+
+            override fun getChangePayload(
+                oldItem: CommunityUiModel,
+                newItem: CommunityUiModel
+            ): Any? {
+                Log.d("TEST_PAYLOAD", "getChangePayload: \n$oldItem\n$newItem")
+                return if (oldItem.isFavorite != newItem.isFavorite) {
+                    FollowedCommunitiesPayloads.Like(newItem.isFavorite)
+                } else {
+                    super.getChangePayload(oldItem, newItem)
+                }
             }
         }
     }

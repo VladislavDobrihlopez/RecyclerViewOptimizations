@@ -12,7 +12,8 @@ object CommunityMapper {
             name = entity.name,
             sphere = entity.sphere,
             participants = entity.participants.toString(),
-            drawableResId = if (entity.isFavorite) R.drawable.star else R.drawable.no_star
+            drawableResId = if (entity.isFavorite) R.drawable.star else R.drawable.no_star,
+            isFavorite = entity.isFavorite
         )
     }
 }

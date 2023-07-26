@@ -37,6 +37,18 @@ class FollowedCommunitiesAdapter(
             ?: throw IllegalStateException("There are no adapter delegates that are able to work with item №$position")
     }
 
+    override fun onBindViewHolder(
+        holder: BaseViewHolder<ViewBinding, Item>,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        if (payloads.isEmpty()) {
+            super.onBindViewHolder(holder, position, payloads)
+        } else {
+            holder.onBind(getItem(position), payloads)
+        }
+    }
+
     override fun onBindViewHolder(holder: BaseViewHolder<ViewBinding, Item>, position: Int) {
         holder.onBind(getItem(position))
     }

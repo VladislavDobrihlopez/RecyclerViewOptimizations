@@ -6,5 +6,6 @@ data class CommunityUiModel(
     val name: String,
     val sphere: String,
     val participants: String,
-    val drawableResId: Int
+    val drawableResId: Int,
+    val isFavorite: Boolean,
 ) : Item

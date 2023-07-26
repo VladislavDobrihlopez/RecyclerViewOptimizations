@@ -40,9 +40,7 @@ class CommunitiesFragment : Fragment() {
         setupScrollableLists()
         doServerResponse()
         adapter1.submitList(responseCommunities.toList())
-        doServerResponse()
         adapter2.submitList(responseCommunities.toList())
-        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onDestroyView() {
@@ -59,6 +57,14 @@ class CommunitiesFragment : Fragment() {
         )
         binding.recyclerViewFollowedCommunities.adapter = adapter1
         binding.recyclerViewTopOfTheDay.adapter = adapter2
+
+//        fixBlinking()
+    }
+
+    //first solution
+    private fun fixBlinking() {
+        binding.recyclerViewFollowedCommunities.adapter = null
+        binding.recyclerViewTopOfTheDay.itemAnimator = null
     }
 
     private fun changeItemLikeStatus1(item: CommunityUiModel) {
@@ -68,8 +74,7 @@ class CommunitiesFragment : Fragment() {
     }
 
     private fun changeItemLikeStatus2(item: CommunityUiModel) {
-        val index = adapter2.currentList.toMutableList().indexOf(item)
-        requestItemStateChanges2(index, item)
+        requestItemStateChanges2(item)
 //        adapter2.notifyItemChanged(index)
     }
 
@@ -93,19 +98,33 @@ class CommunitiesFragment : Fragment() {
 
     private fun requestItemStateChanges1(index: Int, item: CommunityUiModel) {
         val newItem =
-            item.copy(drawableResId = if (item.drawableResId == R.drawable.star) R.drawable.no_star else R.drawable.star)
+            item.copy(
+                drawableResId = if (item.drawableResId == R.drawable.star) R.drawable.no_star else R.drawable.star,
+                isFavorite = !item.isFavorite
+            )
         val old = adapter1.currentList.toMutableList()
         old.removeAt(index)
         old.add(index, newItem)
         adapter1.submitList(old)
     }
 
-    private fun requestItemStateChanges2(index: Int, item: CommunityUiModel) {
+    private fun requestItemStateChanges2(item: CommunityUiModel) {
+        Log.d("TEST_CRASH", "searching for: $item")
+
+        val index = adapter2.currentList.indexOf(item)
+
+        Log.d("TEST_CRASH", "$index \n$item")
+
         val newItem =
-            item.copy(drawableResId = if (item.drawableResId == R.drawable.star) R.drawable.no_star else R.drawable.star)
+            item.copy(
+                drawableResId = if (item.drawableResId == R.drawable.star) R.drawable.no_star else R.drawable.star,
+                isFavorite = !item.isFavorite
+            )
         val old = adapter2.currentList.toMutableList()
         old.removeAt(index)
         old.add(index, newItem)
+        Log.d("TEST_CRASH", "before submitting: $newItem")
+
         adapter2.submitList(old)
     }
 
