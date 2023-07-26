@@ -3,8 +3,10 @@ package com.example.fakevkhub.presentation.adapters
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
+import com.example.fakevkhub.presentation.FollowedCommunitiesDiffUtils
 import com.example.fakevkhub.presentation.delegates.AdapterDelegate
 import com.example.fakevkhub.presentation.uimodels.Item
 import com.example.fakevkhub.presentation.viewholders.BaseViewHolder
@@ -12,9 +14,17 @@ import com.example.fakevkhub.presentation.viewholders.BaseViewHolder
 class FollowedCommunitiesAdapter(
     private val delegates: List<AdapterDelegate<*, *>>
 ) : RecyclerView.Adapter<BaseViewHolder<ViewBinding, Item>>() {
-    var onClickEventListener: ((Item) -> Unit)? = null
-
     var items = mutableListOf<Item>()
+        set(newValue) {
+            val diffUtil = FollowedCommunitiesDiffUtils(
+                olds = items,
+                newbies = newValue,
+                delegateAdapters = delegates
+            )
+            field = newValue.toMutableList()
+            val results = DiffUtil.calculateDiff(diffUtil)
+            results.dispatchUpdatesTo(this)
+        }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

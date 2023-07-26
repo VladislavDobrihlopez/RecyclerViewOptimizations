@@ -62,15 +62,15 @@ class CommunitiesFragment : Fragment() {
     }
 
     private fun changeItemLikeStatus1(item: CommunityUiModel) {
-        val index = adapter1.items.indexOf(item)
+        val index = adapter1.items.toMutableList().indexOf(item)
         requestItemStateChanges1(index, item)
-        adapter1.notifyItemChanged(index)
+//        adapter1.notifyItemChanged(index)
     }
 
     private fun changeItemLikeStatus2(item: CommunityUiModel) {
-        val index = adapter2.items.indexOf(item)
+        val index = adapter2.items.toMutableList().indexOf(item)
         requestItemStateChanges2(index, item)
-        adapter2.notifyItemChanged(index)
+//        adapter2.notifyItemChanged(index)
     }
 
     private fun doServerResponse() {
@@ -94,15 +94,19 @@ class CommunitiesFragment : Fragment() {
     private fun requestItemStateChanges1(index: Int, item: CommunityUiModel) {
         val newItem =
             item.copy(drawableResId = if (item.drawableResId == R.drawable.star) R.drawable.no_star else R.drawable.star)
-        adapter1.items.removeAt(index)
-        adapter1.items.add(index, newItem)
+        val old = adapter1.items.toMutableList()
+        old.removeAt(index)
+        old.add(index, newItem)
+        adapter1.items = old
     }
 
     private fun requestItemStateChanges2(index: Int, item: CommunityUiModel) {
         val newItem =
             item.copy(drawableResId = if (item.drawableResId == R.drawable.star) R.drawable.no_star else R.drawable.star)
-        adapter2.items.removeAt(index)
-        adapter2.items.add(index, newItem)
+        val old = adapter2.items.toMutableList()
+        old.removeAt(index)
+        old.add(index, newItem)
+        adapter2.items = old
     }
 
     companion object {
