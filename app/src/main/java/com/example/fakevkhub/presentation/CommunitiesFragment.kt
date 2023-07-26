@@ -39,9 +39,9 @@ class CommunitiesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setupScrollableLists()
         doServerResponse()
-        adapter1.items = responseCommunities.toMutableList()
+        adapter1.submitList(responseCommunities.toList())
         doServerResponse()
-        adapter2.items = responseCommunities.toMutableList()
+        adapter2.submitList(responseCommunities.toList())
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -62,13 +62,13 @@ class CommunitiesFragment : Fragment() {
     }
 
     private fun changeItemLikeStatus1(item: CommunityUiModel) {
-        val index = adapter1.items.toMutableList().indexOf(item)
+        val index = adapter1.currentList.toMutableList().indexOf(item)
         requestItemStateChanges1(index, item)
 //        adapter1.notifyItemChanged(index)
     }
 
     private fun changeItemLikeStatus2(item: CommunityUiModel) {
-        val index = adapter2.items.toMutableList().indexOf(item)
+        val index = adapter2.currentList.toMutableList().indexOf(item)
         requestItemStateChanges2(index, item)
 //        adapter2.notifyItemChanged(index)
     }
@@ -94,19 +94,19 @@ class CommunitiesFragment : Fragment() {
     private fun requestItemStateChanges1(index: Int, item: CommunityUiModel) {
         val newItem =
             item.copy(drawableResId = if (item.drawableResId == R.drawable.star) R.drawable.no_star else R.drawable.star)
-        val old = adapter1.items.toMutableList()
+        val old = adapter1.currentList.toMutableList()
         old.removeAt(index)
         old.add(index, newItem)
-        adapter1.items = old
+        adapter1.submitList(old)
     }
 
     private fun requestItemStateChanges2(index: Int, item: CommunityUiModel) {
         val newItem =
             item.copy(drawableResId = if (item.drawableResId == R.drawable.star) R.drawable.no_star else R.drawable.star)
-        val old = adapter2.items.toMutableList()
+        val old = adapter2.currentList.toMutableList()
         old.removeAt(index)
         old.add(index, newItem)
-        adapter2.items = old
+        adapter2.submitList(old)
     }
 
     companion object {

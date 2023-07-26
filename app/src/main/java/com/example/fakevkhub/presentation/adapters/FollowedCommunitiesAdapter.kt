@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.example.fakevkhub.presentation.FollowedCommunitiesDiffUtils
@@ -13,19 +14,7 @@ import com.example.fakevkhub.presentation.viewholders.BaseViewHolder
 
 class FollowedCommunitiesAdapter(
     private val delegates: List<AdapterDelegate<*, *>>
-) : RecyclerView.Adapter<BaseViewHolder<ViewBinding, Item>>() {
-    var items = mutableListOf<Item>()
-        set(newValue) {
-            val diffUtil = FollowedCommunitiesDiffUtils(
-                olds = items,
-                newbies = newValue,
-                delegateAdapters = delegates
-            )
-            field = newValue.toMutableList()
-            val results = DiffUtil.calculateDiff(diffUtil)
-            results.dispatchUpdatesTo(this)
-        }
-
+) : ListAdapter<Item, BaseViewHolder<ViewBinding, Item>>(FollowedCommunitiesDiffUtils(delegates)) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -41,7 +30,7 @@ class FollowedCommunitiesAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        val item = items[position]
+        val item = getItem(position)
         Log.d("FollowedCommunitiesAdapter", "$position")
         return delegates.find { it.isOfNeededType(item) }
             ?.getLayoutIdAsViewType()
@@ -49,10 +38,6 @@ class FollowedCommunitiesAdapter(
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<ViewBinding, Item>, position: Int) {
-        holder.onBind(items[position])
-    }
-
-    override fun getItemCount(): Int {
-        return items.count()
+        holder.onBind(getItem(position))
     }
 }
