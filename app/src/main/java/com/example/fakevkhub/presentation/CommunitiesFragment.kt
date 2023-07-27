@@ -90,6 +90,7 @@ class CommunitiesFragment : Fragment() {
                 val old = adapter2.currentList.toMutableList()
                 old.add(element = item, index = position)
                 adapter2.submitList(old.toList())
+                binding.recyclerViewTopOfTheDay.smoothScrollToPosition(position)
             }
             .show()
     }
