@@ -5,8 +5,7 @@
     android:layout_height="wrap_content"
     android:background="#313131"
     android:gravity="center"
-    android:orientation="horizontal"
-    android:padding="4dp">
+    android:orientation="horizontal">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageViewCommunityThumb"
@@ -31,6 +30,7 @@
             android:id="@+id/textViewName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxLines="1"
             android:text="group_name"
             android:textColor="@color/white"
             android:textSize="20sp"
@@ -40,6 +40,7 @@
             android:id="@+id/textViewSphere"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxLines="2"
             android:text="description"
             android:textColor="@color/white"
             android:textSize="16sp" />

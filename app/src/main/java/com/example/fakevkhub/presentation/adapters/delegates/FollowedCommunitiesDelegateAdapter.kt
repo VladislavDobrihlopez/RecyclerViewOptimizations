@@ -1,4 +1,4 @@
-package com.example.fakevkhub.presentation.delegates
+package com.example.fakevkhub.presentation.adapters.delegates
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,9 +8,9 @@ import com.example.fakevkhub.R
 import com.example.fakevkhub.databinding.CommunityItemBinding
 import com.example.fakevkhub.presentation.uimodels.CommunityUiModel
 import com.example.fakevkhub.presentation.uimodels.Item
-import com.example.fakevkhub.presentation.viewholders.BaseViewHolder
-import com.example.fakevkhub.presentation.viewholders.FollowedCommunitiesPayloads
-import com.example.fakevkhub.presentation.viewholders.FollowedCommunityCardViewHolder
+import com.example.fakevkhub.presentation.adapters.viewholders.BaseViewHolder
+import com.example.fakevkhub.presentation.adapters.viewholders.FollowedCommunitiesPayloads
+import com.example.fakevkhub.presentation.adapters.viewholders.FollowedCommunityCardViewHolder
 
 class FollowedCommunitiesDelegateAdapter(
     private val onEvent: (CommunityUiModel) -> Unit

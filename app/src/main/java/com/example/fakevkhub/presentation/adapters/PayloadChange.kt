@@ -1,4 +1,4 @@
-package com.example.fakevkhub.presentation
+package com.example.fakevkhub.presentation.adapters
 
 data class PayloadChange<out T>(val first: T, val second: T)
 

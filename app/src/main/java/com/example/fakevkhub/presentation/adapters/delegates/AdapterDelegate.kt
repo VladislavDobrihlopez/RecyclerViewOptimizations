@@ -1,4 +1,4 @@
-package com.example.fakevkhub.presentation.delegates
+package com.example.fakevkhub.presentation.adapters.delegates
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.example.fakevkhub.presentation.uimodels.Item
-import com.example.fakevkhub.presentation.viewholders.BaseViewHolder
+import com.example.fakevkhub.presentation.adapters.viewholders.BaseViewHolder
 
 /*
 Обязанность - инкапсулятор вьюхолдера и вьютайпа, предоставляет их наружу

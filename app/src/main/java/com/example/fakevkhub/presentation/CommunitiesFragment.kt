@@ -6,13 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.example.fakevkhub.R
 import com.example.fakevkhub.databinding.FragmentCommunitiesBinding
 import com.example.fakevkhub.domain.Community
 import com.example.fakevkhub.presentation.adapters.FollowedCommunitiesAdapter
-import com.example.fakevkhub.presentation.delegates.FollowedCommunitiesDelegateAdapter
+import com.example.fakevkhub.presentation.adapters.decorations.CommunityItemDecoration
+import com.example.fakevkhub.presentation.adapters.delegates.FollowedCommunitiesDelegateAdapter
 import com.example.fakevkhub.presentation.mappers.CommunityMapper
 import com.example.fakevkhub.presentation.uimodels.CommunityUiModel
+import com.example.fakevkhub.presentation.uimodels.Item
+import com.google.android.material.snackbar.Snackbar
 
 class CommunitiesFragment : Fragment() {
     private lateinit var adapter1: FollowedCommunitiesAdapter
@@ -55,9 +59,11 @@ class CommunitiesFragment : Fragment() {
         adapter2 = FollowedCommunitiesAdapter(
             listOf(FollowedCommunitiesDelegateAdapter(::changeItemLikeStatus2))
         )
+        binding.recyclerViewFollowedCommunities.addItemDecoration(CommunityItemDecoration(24))
         binding.recyclerViewFollowedCommunities.adapter = adapter1
         binding.recyclerViewTopOfTheDay.adapter = adapter2
 
+        initSwipeToDelete()
 //        fixBlinking()
     }
 
@@ -65,6 +71,27 @@ class CommunitiesFragment : Fragment() {
     private fun fixBlinking() {
         binding.recyclerViewFollowedCommunities.adapter = null
         binding.recyclerViewTopOfTheDay.itemAnimator = null
+    }
+
+    private fun initSwipeToDelete() {
+        val swipeToDelete = CommunitySwipeToDismiss { idForItemGoingToBeRemoved ->
+            val old = adapter2.currentList.toMutableList()
+            val item = old.removeAt(idForItemGoingToBeRemoved)
+            adapter2.submitList(old.toList())
+            suggestRestoringItem(item, idForItemGoingToBeRemoved)
+        }
+
+        ItemTouchHelper(swipeToDelete).attachToRecyclerView(binding.recyclerViewTopOfTheDay)
+    }
+
+    private fun suggestRestoringItem(item: Item, position: Int) {
+        Snackbar.make(binding.recyclerViewTopOfTheDay, "You can restore item", Snackbar.LENGTH_LONG)
+            .setAction("Undo") {
+                val old = adapter2.currentList.toMutableList()
+                old.add(element = item, index = position)
+                adapter2.submitList(old.toList())
+            }
+            .show()
     }
 
     private fun changeItemLikeStatus1(item: CommunityUiModel) {

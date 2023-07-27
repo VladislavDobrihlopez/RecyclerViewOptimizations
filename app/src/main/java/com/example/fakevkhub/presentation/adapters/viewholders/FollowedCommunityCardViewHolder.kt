@@ -1,10 +1,9 @@
-package com.example.fakevkhub.presentation.viewholders
+package com.example.fakevkhub.presentation.adapters.viewholders
 
 import android.util.Log
 import com.example.fakevkhub.R
 import com.example.fakevkhub.databinding.CommunityItemBinding
-import com.example.fakevkhub.presentation.PayloadChange
-import com.example.fakevkhub.presentation.createTwoEndPayload
+import com.example.fakevkhub.presentation.adapters.createTwoEndPayload
 import com.example.fakevkhub.presentation.uimodels.CommunityUiModel
 
 class FollowedCommunityCardViewHolder(

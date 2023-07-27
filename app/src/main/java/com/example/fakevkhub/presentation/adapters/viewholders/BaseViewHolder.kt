@@ -1,4 +1,4 @@
-package com.example.fakevkhub.presentation.viewholders
+package com.example.fakevkhub.presentation.adapters.viewholders
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding

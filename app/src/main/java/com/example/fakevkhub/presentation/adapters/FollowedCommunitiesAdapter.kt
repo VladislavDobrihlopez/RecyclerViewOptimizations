@@ -3,14 +3,11 @@ package com.example.fakevkhub.presentation.adapters
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.example.fakevkhub.presentation.FollowedCommunitiesDiffUtils
-import com.example.fakevkhub.presentation.delegates.AdapterDelegate
+import com.example.fakevkhub.presentation.adapters.delegates.AdapterDelegate
 import com.example.fakevkhub.presentation.uimodels.Item
-import com.example.fakevkhub.presentation.viewholders.BaseViewHolder
+import com.example.fakevkhub.presentation.adapters.viewholders.BaseViewHolder
 
 class FollowedCommunitiesAdapter(
     private val delegates: List<AdapterDelegate<*, *>>

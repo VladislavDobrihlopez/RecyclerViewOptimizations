@@ -1,7 +1,7 @@
-package com.example.fakevkhub.presentation
+package com.example.fakevkhub.presentation.adapters
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.fakevkhub.presentation.delegates.AdapterDelegate
+import com.example.fakevkhub.presentation.adapters.delegates.AdapterDelegate
 import com.example.fakevkhub.presentation.uimodels.Item
 
 class FollowedCommunitiesDiffUtils(
