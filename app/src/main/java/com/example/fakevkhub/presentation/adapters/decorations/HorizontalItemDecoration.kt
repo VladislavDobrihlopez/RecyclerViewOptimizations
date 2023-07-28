@@ -4,8 +4,9 @@ import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-class CommunityItemDecoration(
+class HorizontalItemDecoration(
     private val divider: Int,
+    private val excludedViewTypes: List<Int> = listOf()
 ) : RecyclerView.ItemDecoration() {
     override fun getItemOffsets(
         outRect: Rect,
@@ -15,6 +16,9 @@ class CommunityItemDecoration(
     ) {
         super.getItemOffsets(outRect, view, parent, state)
 
+        if (excludedViewTypes.contains(parent.getChildViewHolder(view).itemViewType)) {
+            return
+        }
 //        if (viewType != parent.getChildViewHolder(view).itemViewType) {
 //            return
 //        }

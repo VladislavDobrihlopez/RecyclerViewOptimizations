@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import com.example.fakevkhub.R
 import com.example.fakevkhub.databinding.FragmentCommunitiesBinding
 import com.example.fakevkhub.presentation.adapters.FollowedCommunitiesAdapter
-import com.example.fakevkhub.presentation.adapters.decorations.CommunityItemDecoration
+import com.example.fakevkhub.presentation.adapters.decorations.HorizontalItemDecoration
 import com.example.fakevkhub.presentation.adapters.delegates.DetailedCommunitiesDelegateAdapter
 import com.example.fakevkhub.presentation.adapters.delegates.FollowedCommunitiesDelegateAdapter
 import com.example.fakevkhub.presentation.adapters.delegates.HorizontalScrollDelegateAdapter
@@ -61,7 +61,7 @@ class CommunitiesFragment : Fragment() {
 
     private fun setupScrollableLists() {
         adapter1 = FollowedCommunitiesAdapter(
-            listOf(FollowedCommunitiesDelegateAdapter(::changeItemLikeStatus1))
+            listOf(FollowedCommunitiesDelegateAdapter(::changeItemLikeStatus1, 730))
         )
         adapter2 = FollowedCommunitiesAdapter(
             listOf(
@@ -69,8 +69,13 @@ class CommunitiesFragment : Fragment() {
                 HorizontalScrollDelegateAdapter(listOf(DetailedCommunitiesDelegateAdapter(::onFollowed)))
             )
         )
-        binding.recyclerViewFollowedCommunities.addItemDecoration(CommunityItemDecoration(24))
-        binding.recyclerViewTopOfTheDay.addItemDecoration(CommunityItemDecoration(24))
+        binding.recyclerViewFollowedCommunities.addItemDecoration(HorizontalItemDecoration(36))
+        binding.recyclerViewTopOfTheDay.addItemDecoration(
+            HorizontalItemDecoration(
+                36,
+                listOf(R.layout.communities_detailed)
+            )
+        )
         binding.recyclerViewFollowedCommunities.adapter = adapter1
         binding.recyclerViewTopOfTheDay.adapter = adapter2
 
@@ -154,7 +159,7 @@ class CommunitiesFragment : Fragment() {
     private fun requestItemStateChanges2(item: CommunityUiModel) {
         Log.d("TEST_CRASH", "searching for: $item")
 
-        val index = adapter2.currentList.indexOf(item)
+        val index = screenFeed.indexOf(item)
 
         Log.d("TEST_CRASH", "$index \n$item")
 
@@ -163,12 +168,12 @@ class CommunitiesFragment : Fragment() {
                 drawableResId = if (item.drawableResId == R.drawable.star) R.drawable.no_star else R.drawable.star,
                 isFavorite = !item.isFavorite
             )
-        val old = adapter2.currentList.toMutableList()
-        old.removeAt(index)
-        old.add(index, newItem)
+
+        screenFeed.removeAt(index)
+        screenFeed.add(index, newItem)
         Log.d("TEST_CRASH", "before submitting: $newItem")
 
-        adapter2.submitList(old)
+        adapter2.submitList(screenFeed.toList())
     }
 
     companion object {

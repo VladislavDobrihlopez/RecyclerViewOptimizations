@@ -6,14 +6,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.example.fakevkhub.R
 import com.example.fakevkhub.databinding.CommunityItemBinding
-import com.example.fakevkhub.presentation.uimodels.CommunityUiModel
-import com.example.fakevkhub.presentation.uimodels.Item
 import com.example.fakevkhub.presentation.adapters.viewholders.BaseViewHolder
 import com.example.fakevkhub.presentation.adapters.viewholders.FollowedCommunitiesPayloads
 import com.example.fakevkhub.presentation.adapters.viewholders.FollowedCommunityCardViewHolder
+import com.example.fakevkhub.presentation.uimodels.CommunityUiModel
+import com.example.fakevkhub.presentation.uimodels.Item
 
 class FollowedCommunitiesDelegateAdapter(
-    private val onEvent: (CommunityUiModel) -> Unit
+    private val onEvent: (CommunityUiModel) -> Unit,
+    private val itemWidth: Int? = null
 ) : AdapterDelegate<CommunityItemBinding, CommunityUiModel>() {
     private val diffUtilItem by lazy {
         object : DiffUtil.ItemCallback<CommunityUiModel>() {
@@ -58,6 +59,10 @@ class FollowedCommunitiesDelegateAdapter(
             parent,
             false
         )
+
+        with(binding.root.layoutParams) {
+            width = itemWidth ?: width
+        }
 
         return FollowedCommunityCardViewHolder(binding, onEvent)
     }
