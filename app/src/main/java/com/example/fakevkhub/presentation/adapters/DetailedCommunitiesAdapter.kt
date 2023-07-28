@@ -49,4 +49,10 @@ class DetailedCommunitiesAdapter(
             }
             ?: throw IllegalStateException("There are no adapter delegates that are able to work with item №$position")
     }
+
+    override fun onViewDetachedFromWindow(holder: BaseViewHolder<ViewBinding, Item>) {
+        holder.onViewDetached()
+    }
+
+
 }

@@ -12,7 +12,8 @@ import com.example.fakevkhub.presentation.uimodels.DetailedCommunityUiModel
 import com.example.fakevkhub.presentation.uimodels.Item
 
 class DetailedCommunitiesDelegateAdapter(
-    private val onFollowed: (DetailedCommunityUiModel) -> Unit // recyclerViewId and ui model
+    private val onFollowed: (DetailedCommunityUiModel) -> Unit, // recyclerViewId and ui model
+    private val itemWidth: Int? = null
 ) : AdapterDelegate<DetailedCommunityItemBinding, DetailedCommunityUiModel>() {
     private val diffUtilItem by lazy {
         object : DiffUtil.ItemCallback<DetailedCommunityUiModel>() {
@@ -51,9 +52,15 @@ class DetailedCommunitiesDelegateAdapter(
         inflater: LayoutInflater,
         parent: ViewGroup
     ): BaseViewHolder<DetailedCommunityItemBinding, DetailedCommunityUiModel> {
+        val binding = DetailedCommunityItemBinding.inflate(inflater, parent, false)
+
+        with(binding.root.layoutParams) {
+            width = itemWidth ?: width
+        }
+
         return DetailedCommunityCardViewHolder(
             onFollowed,
-            DetailedCommunityItemBinding.inflate(inflater, parent, false)
+            binding
         )
     }
 

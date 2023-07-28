@@ -3,6 +3,7 @@ package com.example.fakevkhub.presentation
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
+import android.os.Parcelable
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.StyleSpan
@@ -30,6 +31,12 @@ fun RecyclerView.Adapter<*>.isNextViewOfTheSameType(currentAdapterPosition: Int,
     return getItemViewType(nextPosition) == viewType
 }
 
+fun RecyclerView.onRestoreState(state: Parcelable?) {
+    state?.let {
+        layoutManager?.onRestoreInstanceState(it)
+    }
+}
+
 fun getRandomCommunities(context: Context): List<Item> {
     val items = mutableListOf<Item>()
     (1..30).forEach { index ->
@@ -42,7 +49,7 @@ fun getRandomFeed(context: Context): List<Item> {
     val items = mutableListOf<Item>()
     (1..25).forEach { index ->
         val item = when (index) {
-            1, 6, 7, 10, 15, 20 -> getRandomHorizontalItems(rvIndex = index, context)
+            1, 6, 7, 10, 15, 20, 12, 25 -> getRandomHorizontalItems(rvIndex = index, context)
             else -> getRandomUserPost(index, context)
         }
         items.add(item)
@@ -60,7 +67,7 @@ fun getRandomUserPost(index: Int, context: Context) = CommunityUiModel(
     id = index,
     name = "Some name: $index",
     sphere = spheres.random(),
-    participants = Random.nextInt().toString(),
+    participants = Math.abs(Random.nextInt()).toString(),
     drawableResId = R.drawable.no_star,
     isFavorite = false,
 )
@@ -71,20 +78,10 @@ fun getRandomDetailedPost(rvIndex: Int, index: Int) = DetailedCommunityUiModel(
     groupImageUrl = logoImages.random().toString(),
     name = "Some name: $index",
     sphere = spheres.random(),
-    followers = Random.nextInt().toString(),
+    followers = Math.abs(Random.nextInt()).toString(),
     buttonDrawableResId = R.drawable.dadac,
     isFollowed = false,
 )
-
-private fun getPostDescription(nickName: String, comment: String) =
-    SpannableStringBuilder("$nickName: $comment").apply {
-        setSpan(
-            StyleSpan(Typeface.BOLD),
-            0,
-            nickName.length,
-            Spannable.SPAN_INCLUSIVE_INCLUSIVE
-        )
-    }
 
 private val logoImages = listOf(R.drawable.dog1, R.drawable.dog2, R.drawable.default_logo)
 private val spheres = listOf(

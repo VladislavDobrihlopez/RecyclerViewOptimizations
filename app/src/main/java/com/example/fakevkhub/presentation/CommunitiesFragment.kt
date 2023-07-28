@@ -66,7 +66,7 @@ class CommunitiesFragment : Fragment() {
         adapter2 = FollowedCommunitiesAdapter(
             listOf(
                 FollowedCommunitiesDelegateAdapter(::changeItemLikeStatus2),
-                HorizontalScrollDelegateAdapter(listOf(DetailedCommunitiesDelegateAdapter(::onFollowed)))
+                HorizontalScrollDelegateAdapter(listOf(DetailedCommunitiesDelegateAdapter(::onFollowed, 900)))
             )
         )
         binding.recyclerViewFollowedCommunities.addItemDecoration(HorizontalItemDecoration(36))
@@ -106,7 +106,6 @@ class CommunitiesFragment : Fragment() {
                 val old = adapter2.currentList.toMutableList()
                 old.add(element = item, index = position)
                 adapter2.submitList(old.toList())
-                binding.recyclerViewTopOfTheDay.smoothScrollToPosition(position)
             }
             .show()
     }
