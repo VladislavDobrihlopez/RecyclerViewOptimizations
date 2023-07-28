@@ -1,131 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#212121"
-    android:orientation="vertical"
     tools:context=".presentation.CommunitiesFragment">
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#313131"
-        app:cardCornerRadius="24dp"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        android:background="#212121"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="12dp">
+            android:backgroundTint="#313131"
+            app:cardCornerRadius="24dp"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/textViewFollowing"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/following"
-                android:textColor="@color/white"
-                android:textSize="28sp"
-                android:textStyle="bold" />
+                android:orientation="vertical"
+                android:padding="12dp">
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp" />
+                <TextView
+                    android:id="@+id/textViewFollowing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/following"
+                    android:textColor="@color/white"
+                    android:textSize="28sp"
+                    android:textStyle="bold" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewFollowedCommunities"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="3"
-                tools:itemCount="9"
-                tools:listitem="@layout/community_item" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewFollowedCommunities"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="3"
+                    tools:itemCount="9"
+                    tools:listitem="@layout/community_item" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#313131"
-        app:cardCornerRadius="24dp"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
+        <Space
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="12dp">
+            android:layout_margin="12dp" />
 
-            <TextView
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#313131"
+            app:cardCornerRadius="24dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Recommended"
-                android:textColor="@color/white"
-                android:textSize="28sp"
-                android:textStyle="bold" />
+                android:orientation="vertical"
+                android:padding="12dp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewRecommendedCommunities"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Recommended"
+                    android:textColor="@color/white"
+                    android:textSize="28sp"
+                    android:textStyle="bold" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp" />
+                <!--            <androidx.recyclerview.widget.RecyclerView-->
+                <!--                android:id="@+id/recyclerViewRecommendedCommunities"-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:orientation="horizontal"-->
+                <!--                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />-->
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Most visited today"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewTopOfTheDay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/community_item" />
+                <!--            <TextView-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:text="Most visited today"-->
+                <!--                android:textColor="@color/white"-->
+                <!--                android:textSize="20sp"-->
+                <!--                android:textStyle="bold" />-->
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewTopOfTheDay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/community_item" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="What your friends like"
-                android:textColor="@color/white"
-                android:textSize="28sp"
-                android:textStyle="bold" />
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewFriendsAppreciations"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                <!--            <TextView-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:text="What your friends like"-->
+                <!--                android:textColor="@color/white"-->
+                <!--                android:textSize="28sp"-->
+                <!--                android:textStyle="bold" />-->
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp" />
+                <!--            <androidx.recyclerview.widget.RecyclerView-->
+                <!--                android:id="@+id/recyclerViewFriendsAppreciations"-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:orientation="horizontal"-->
+                <!--                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />-->
 
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-</LinearLayout>
+                <!--            <Space-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:layout_margin="4dp" />-->
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</ScrollView>

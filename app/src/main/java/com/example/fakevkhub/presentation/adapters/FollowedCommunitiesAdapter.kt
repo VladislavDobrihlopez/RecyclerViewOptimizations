@@ -6,18 +6,22 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.viewbinding.ViewBinding
 import com.example.fakevkhub.presentation.adapters.delegates.AdapterDelegate
-import com.example.fakevkhub.presentation.uimodels.Item
 import com.example.fakevkhub.presentation.adapters.viewholders.BaseViewHolder
+import com.example.fakevkhub.presentation.uimodels.Item
 
 class FollowedCommunitiesAdapter(
-    private val delegates: List<AdapterDelegate<*, *>>
-) : ListAdapter<Item, BaseViewHolder<ViewBinding, Item>>(FollowedCommunitiesDiffUtils(delegates)) {
+    private val adapterDelegates: List<AdapterDelegate<*, *>>
+) : ListAdapter<Item, BaseViewHolder<ViewBinding, Item>>(
+    CommunitiesDiffUtils(
+        adapterDelegates
+    )
+) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): BaseViewHolder<ViewBinding, Item> {
         val inflater = LayoutInflater.from(parent.context)
-        return delegates.find { viewType == it.getLayoutIdAsViewType() }
+        adapterDelegates.find { viewType == it.getLayoutIdAsViewType() }
             ?.getViewHolder(
                 inflater = inflater,
                 parent = parent
@@ -29,8 +33,11 @@ class FollowedCommunitiesAdapter(
     override fun getItemViewType(position: Int): Int {
         val item = getItem(position)
         Log.d("FollowedCommunitiesAdapter", "$position")
-        return delegates.find { it.isOfNeededType(item) }
+        adapterDelegates.find { it.isOfNeededType(item) }
             ?.getLayoutIdAsViewType()
+            ?.let { layoutId ->
+                return layoutId
+            }
             ?: throw IllegalStateException("There are no adapter delegates that are able to work with item №$position")
     }
 

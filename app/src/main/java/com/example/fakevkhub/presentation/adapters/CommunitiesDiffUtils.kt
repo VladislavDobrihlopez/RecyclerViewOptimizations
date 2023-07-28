@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.DiffUtil
 import com.example.fakevkhub.presentation.adapters.delegates.AdapterDelegate
 import com.example.fakevkhub.presentation.uimodels.Item
 
-class FollowedCommunitiesDiffUtils(
+class CommunitiesDiffUtils(
     private val delegateAdapters: List<AdapterDelegate<*, *>>
 ) : DiffUtil.ItemCallback<Item>() {
     private fun getDiffItemCallback(item: Item): DiffUtil.ItemCallback<Item> {

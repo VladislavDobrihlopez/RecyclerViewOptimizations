@@ -9,12 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.example.fakevkhub.R
 import com.example.fakevkhub.databinding.FragmentCommunitiesBinding
-import com.example.fakevkhub.domain.Community
 import com.example.fakevkhub.presentation.adapters.FollowedCommunitiesAdapter
 import com.example.fakevkhub.presentation.adapters.decorations.CommunityItemDecoration
+import com.example.fakevkhub.presentation.adapters.delegates.DetailedCommunitiesDelegateAdapter
 import com.example.fakevkhub.presentation.adapters.delegates.FollowedCommunitiesDelegateAdapter
-import com.example.fakevkhub.presentation.mappers.CommunityMapper
+import com.example.fakevkhub.presentation.adapters.delegates.HorizontalScrollDelegateAdapter
+import com.example.fakevkhub.presentation.uimodels.CommunitiesHolder
 import com.example.fakevkhub.presentation.uimodels.CommunityUiModel
+import com.example.fakevkhub.presentation.uimodels.DetailedCommunityUiModel
 import com.example.fakevkhub.presentation.uimodels.Item
 import com.google.android.material.snackbar.Snackbar
 
@@ -25,10 +27,15 @@ class CommunitiesFragment : Fragment() {
     private val binding: FragmentCommunitiesBinding
         get() = _binding ?: throw IllegalStateException("FragmentCommunitiesBinding is null")
 
-    private val responseCommunities = mutableListOf<CommunityUiModel>()
+    private val myCommunities = mutableListOf<Item>()
+    private val screenFeed = mutableListOf<Item>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        screenFeed.clear()
+        myCommunities.clear()
+        myCommunities.addAll(getRandomCommunities(requireContext()))
+        screenFeed.addAll(getRandomFeed(requireContext()))
         Log.d("COMMUNITIES_FRAGMENT", "fragment created")
     }
 
@@ -42,9 +49,9 @@ class CommunitiesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setupScrollableLists()
-        doServerResponse()
-        adapter1.submitList(responseCommunities.toList())
-        adapter2.submitList(responseCommunities.toList())
+        //doServerResponse()
+        adapter1.submitList(myCommunities.toList())
+        adapter2.submitList(screenFeed.toList())
     }
 
     override fun onDestroyView() {
@@ -57,9 +64,13 @@ class CommunitiesFragment : Fragment() {
             listOf(FollowedCommunitiesDelegateAdapter(::changeItemLikeStatus1))
         )
         adapter2 = FollowedCommunitiesAdapter(
-            listOf(FollowedCommunitiesDelegateAdapter(::changeItemLikeStatus2))
+            listOf(
+                FollowedCommunitiesDelegateAdapter(::changeItemLikeStatus2),
+                HorizontalScrollDelegateAdapter(listOf(DetailedCommunitiesDelegateAdapter(::onFollowed)))
+            )
         )
         binding.recyclerViewFollowedCommunities.addItemDecoration(CommunityItemDecoration(24))
+        binding.recyclerViewTopOfTheDay.addItemDecoration(CommunityItemDecoration(24))
         binding.recyclerViewFollowedCommunities.adapter = adapter1
         binding.recyclerViewTopOfTheDay.adapter = adapter2
 
@@ -106,22 +117,26 @@ class CommunitiesFragment : Fragment() {
 //        adapter2.notifyItemChanged(index)
     }
 
-    private fun doServerResponse() {
-        responseCommunities.clear()
-        repeat(25) { index ->
-            responseCommunities.add(
-                CommunityMapper.mapDomainEntityToUiModel(
-                    entity = Community(
-                        pictureUrl = "",
-                        id = index,
-                        name = "name $index",
-                        sphere = "some_sphere",
-                        participants = index,
-                        isFavorite = false
-                    )
-                )
-            )
-        }
+    private fun onFollowed(item: DetailedCommunityUiModel) {
+        val holder = screenFeed
+            .filterIsInstance<CommunitiesHolder>()
+            .find { it.communities.contains(item) }
+            ?: throw IllegalStateException("Internal error")
+
+        val communityPosition = holder.communities.indexOf(item)
+        val newCommunity = item.copy(
+            isFollowed = !item.isFollowed,
+            buttonDrawableResId = if (!item.isFollowed) {
+                R.drawable.dadac
+            } else {
+                R.drawable.galka
+            }
+        )
+        val communities = holder.communities.toMutableList()
+        communities[communityPosition] = newCommunity
+        val newHolder = holder.copy(communities = communities)
+        screenFeed[screenFeed.indexOf(holder)] = newHolder
+        adapter2.submitList(screenFeed.toList())
     }
 
     private fun requestItemStateChanges1(index: Int, item: CommunityUiModel) {

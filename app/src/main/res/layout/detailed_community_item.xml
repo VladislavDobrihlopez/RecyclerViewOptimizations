@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="24dp"
+    android:backgroundTint="#313131">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:paddingBottom="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageViewBackground"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:contentDescription="background image"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_marginStart="16dp"
+            android:id="@+id/imageViewGroupImage"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:contentDescription="group image"
+            app:layout_constraintBottom_toBottomOf="@id/imageViewBackground"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageViewBackground"
+            app:shapeAppearanceOverlay="@style/circleImageView"
+            app:srcCompat="@drawable/default_logo" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:backgroundTint="@android:color/holo_blue_dark"
+            app:cardCornerRadius="12dp"
+            app:layout_constraintBottom_toBottomOf="@id/imageViewBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageViewBackground">
+
+            <ImageButton
+                android:id="@+id/imageButtonSubscribe"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:backgroundTint="@android:color/holo_blue_dark"
+                android:contentDescription="TODO"
+                app:tint="@color/white" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginStart="16dp"
+            android:id="@+id/textViewName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="group_name"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/imageViewGroupImage" />
+
+        <TextView
+            android:layout_marginStart="16dp"
+            android:id="@+id/textViewSphere"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="description"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/textViewName" />
+
+        <TextView
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:id="@+id/textViewFollowers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="%S members"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/textViewSphere" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

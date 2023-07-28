@@ -3,7 +3,7 @@ package com.example.fakevkhub.presentation.adapters.viewholders
 import android.util.Log
 import com.example.fakevkhub.R
 import com.example.fakevkhub.databinding.CommunityItemBinding
-import com.example.fakevkhub.presentation.adapters.createTwoEndPayload
+import com.example.fakevkhub.presentation.adapters.PayloadChange
 import com.example.fakevkhub.presentation.uimodels.CommunityUiModel
 
 class FollowedCommunityCardViewHolder(
@@ -26,7 +26,7 @@ class FollowedCommunityCardViewHolder(
     override fun onBind(item: CommunityUiModel, payloads: List<Any>) {
         Log.d("TEST_PAYLOAD", payloads.size.toString())
 
-        val changes = createTwoEndPayload<FollowedCommunitiesPayloads>(changes = payloads)
+        val changes = PayloadChange.createTwoEndPayload<FollowedCommunitiesPayloads>(changes = payloads)
 
         if (changes.first == changes.second && payloads.size > 1) {
             return
