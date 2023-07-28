@@ -12,9 +12,7 @@ import com.example.fakevkhub.presentation.uimodels.Item
 class FollowedCommunitiesAdapter(
     private val adapterDelegates: List<AdapterDelegate<*, *>>
 ) : ListAdapter<Item, BaseViewHolder<ViewBinding, Item>>(
-    CommunitiesDiffUtils(
-        adapterDelegates
-    )
+    CommunitiesDiffUtils(adapterDelegates)
 ) {
     override fun onCreateViewHolder(
         parent: ViewGroup,

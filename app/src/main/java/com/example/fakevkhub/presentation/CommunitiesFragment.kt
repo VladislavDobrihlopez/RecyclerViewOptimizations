@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.example.fakevkhub.R
 import com.example.fakevkhub.databinding.FragmentCommunitiesBinding
 import com.example.fakevkhub.presentation.adapters.FollowedCommunitiesAdapter
@@ -14,6 +15,7 @@ import com.example.fakevkhub.presentation.adapters.decorations.HorizontalItemDec
 import com.example.fakevkhub.presentation.adapters.delegates.DetailedCommunitiesDelegateAdapter
 import com.example.fakevkhub.presentation.adapters.delegates.FollowedCommunitiesDelegateAdapter
 import com.example.fakevkhub.presentation.adapters.delegates.HorizontalScrollDelegateAdapter
+import com.example.fakevkhub.presentation.adapters.delegates.SectionNameDelegateAdapter
 import com.example.fakevkhub.presentation.uimodels.CommunitiesHolder
 import com.example.fakevkhub.presentation.uimodels.CommunityUiModel
 import com.example.fakevkhub.presentation.uimodels.DetailedCommunityUiModel
@@ -60,15 +62,31 @@ class CommunitiesFragment : Fragment() {
     }
 
     private fun setupScrollableLists() {
+        val sharedPool = RecyclerView.RecycledViewPool()
+        sharedPool.setMaxRecycledViews(R.layout.community_item, 7)
+        sharedPool.setMaxRecycledViews(R.layout.communities_detailed, 3)
+        sharedPool.setMaxRecycledViews(R.layout.detailed_community_item, 10)
+
         adapter1 = FollowedCommunitiesAdapter(
             listOf(FollowedCommunitiesDelegateAdapter(::changeItemLikeStatus1, 730))
         )
         adapter2 = FollowedCommunitiesAdapter(
             listOf(
                 FollowedCommunitiesDelegateAdapter(::changeItemLikeStatus2),
-                HorizontalScrollDelegateAdapter(listOf(DetailedCommunitiesDelegateAdapter(::onFollowed, 900)))
+                HorizontalScrollDelegateAdapter(
+                    sharedPool,
+                    listOf(
+                        DetailedCommunitiesDelegateAdapter(
+                            ::onFollowed,
+                            900
+                        )
+                    )
+                ),
+                SectionNameDelegateAdapter()
             )
         )
+        binding.recyclerViewFollowedCommunities.setRecycledViewPool(sharedPool)
+        binding.recyclerViewTopOfTheDay.setRecycledViewPool(sharedPool)
         binding.recyclerViewFollowedCommunities.addItemDecoration(HorizontalItemDecoration(36))
         binding.recyclerViewTopOfTheDay.addItemDecoration(
             HorizontalItemDecoration(

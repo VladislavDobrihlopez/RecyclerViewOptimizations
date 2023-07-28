@@ -10,7 +10,8 @@ import com.example.fakevkhub.presentation.uimodels.CommunitiesHolder
 
 class HorizontalBunchOfCommunitiesViewHolder(
     private val binding: CommunitiesDetailedBinding,
-    adapterDelegates: List<AdapterDelegate<*, *>>
+    private val adapterDelegates: List<AdapterDelegate<*, *>>,
+    private val recycledViewPool: RecyclerView.RecycledViewPool,
 ) : BaseViewHolder<CommunitiesDetailedBinding, CommunitiesHolder>(binding) {
     private val _adapter = DetailedCommunitiesAdapter(adapterDelegates)
 
@@ -18,21 +19,18 @@ class HorizontalBunchOfCommunitiesViewHolder(
         with(binding.recyclerViewHorizontalItems) {
             adapter = _adapter
             layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+            setRecycledViewPool(this@HorizontalBunchOfCommunitiesViewHolder.recycledViewPool)
         }
     }
 
     override fun onBind(item: CommunitiesHolder) {
         super.onBind(item)
+        binding.recyclerViewHorizontalItems.onRestoreState(item.state)
         _adapter.submitList(item.communities)
     }
 
-    override fun onBind(item: CommunitiesHolder, payloads: List<Any>) {
-        super.onBind(item)
-        binding.recyclerViewHorizontalItems.onRestoreState(item.state)
-        onBind(item)
-    }
-
     override fun onViewDetached() {
-        item.state = binding.recyclerViewHorizontalItems.layoutManager?.onSaveInstanceState() ?: return
+        item.state =
+            binding.recyclerViewHorizontalItems.layoutManager?.onSaveInstanceState() ?: return
     }
 }

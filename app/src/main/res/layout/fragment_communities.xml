@@ -70,13 +70,13 @@
                 android:orientation="vertical"
                 android:padding="12dp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Recommended"
-                    android:textColor="@color/white"
-                    android:textSize="28sp"
-                    android:textStyle="bold" />
+<!--                <TextView-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Recommended"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="28sp"-->
+<!--                    android:textStyle="bold" />-->
 
                 <!--            <androidx.recyclerview.widget.RecyclerView-->
                 <!--                android:id="@+id/recyclerViewRecommendedCommunities"-->

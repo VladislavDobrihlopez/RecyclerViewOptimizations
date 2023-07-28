@@ -3,6 +3,7 @@ package com.example.fakevkhub.presentation.adapters.delegates
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView.RecycledViewPool
 import com.example.fakevkhub.R
 import com.example.fakevkhub.databinding.CommunitiesDetailedBinding
 import com.example.fakevkhub.presentation.adapters.viewholders.BaseViewHolder
@@ -11,6 +12,7 @@ import com.example.fakevkhub.presentation.uimodels.CommunitiesHolder
 import com.example.fakevkhub.presentation.uimodels.Item
 
 class HorizontalScrollDelegateAdapter(
+    private val recycledViewPool: RecycledViewPool,
     private val adapterDelegates: List<AdapterDelegate<*, *>>
 ) : AdapterDelegate<CommunitiesDetailedBinding, CommunitiesHolder>() {
     private val diffUtil by lazy {
@@ -40,7 +42,7 @@ class HorizontalScrollDelegateAdapter(
         parent: ViewGroup
     ): BaseViewHolder<CommunitiesDetailedBinding, CommunitiesHolder> {
         return HorizontalBunchOfCommunitiesViewHolder(
-            CommunitiesDetailedBinding.inflate(inflater), adapterDelegates
+            CommunitiesDetailedBinding.inflate(inflater), adapterDelegates, recycledViewPool
         )
     }
 
