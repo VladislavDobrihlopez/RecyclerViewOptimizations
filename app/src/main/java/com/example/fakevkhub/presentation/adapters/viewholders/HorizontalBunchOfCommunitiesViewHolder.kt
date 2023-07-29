@@ -13,7 +13,7 @@ class HorizontalBunchOfCommunitiesViewHolder(
     private val adapterDelegates: List<AdapterDelegate<*, *>>,
 ) : BaseViewHolder<CommunitiesDetailedBinding, CommunitiesHolder>(binding) {
     private val _adapter = DetailedCommunitiesAdapter(adapterDelegates)
-    private var xScrollState: Int = 0
+    //private var xScrollState: Int = 0
 
     init {
         with(binding.recyclerViewHorizontalItems) {
@@ -28,6 +28,13 @@ class HorizontalBunchOfCommunitiesViewHolder(
         binding.recyclerViewHorizontalItems.onRestoreState(item.state)
         _adapter.submitList(item.communities)
         //binding.recyclerViewHorizontalItems.scrollX = xScrollState
+    }
+
+    override fun onBind(item: CommunitiesHolder, payloads: List<Any>) {
+        super.onBind(item, payloads)
+
+        if (payloads.last() == true)
+            _adapter.submitList(item.communities)
     }
 
     override fun onViewDetached() {

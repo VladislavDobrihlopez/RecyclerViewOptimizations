@@ -29,6 +29,17 @@ class HorizontalScrollDelegateAdapter(
             ): Boolean {
                 return oldItem == newItem
             }
+
+            override fun getChangePayload(
+                oldItem: CommunitiesHolder,
+                newItem: CommunitiesHolder
+            ): Any? {
+                if (oldItem.communities != newItem.communities) {
+                    return true
+                } else {
+                    return null
+                }
+            }
         }
     }
 
