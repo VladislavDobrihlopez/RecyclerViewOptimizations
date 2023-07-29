@@ -11,22 +11,23 @@ import com.example.fakevkhub.presentation.uimodels.CommunitiesHolder
 class HorizontalBunchOfCommunitiesViewHolder(
     private val binding: CommunitiesDetailedBinding,
     private val adapterDelegates: List<AdapterDelegate<*, *>>,
-    private val recycledViewPool: RecyclerView.RecycledViewPool,
 ) : BaseViewHolder<CommunitiesDetailedBinding, CommunitiesHolder>(binding) {
     private val _adapter = DetailedCommunitiesAdapter(adapterDelegates)
+    private var xScrollState: Int = 0
 
     init {
         with(binding.recyclerViewHorizontalItems) {
             adapter = _adapter
             layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-            setRecycledViewPool(this@HorizontalBunchOfCommunitiesViewHolder.recycledViewPool)
         }
     }
 
     override fun onBind(item: CommunitiesHolder) {
         super.onBind(item)
+        //xScrollState = binding.recyclerViewHorizontalItems.scroll
         binding.recyclerViewHorizontalItems.onRestoreState(item.state)
         _adapter.submitList(item.communities)
+        //binding.recyclerViewHorizontalItems.scrollX = xScrollState
     }
 
     override fun onViewDetached() {

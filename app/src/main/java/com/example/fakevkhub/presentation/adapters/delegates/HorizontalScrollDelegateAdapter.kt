@@ -12,7 +12,6 @@ import com.example.fakevkhub.presentation.uimodels.CommunitiesHolder
 import com.example.fakevkhub.presentation.uimodels.Item
 
 class HorizontalScrollDelegateAdapter(
-    private val recycledViewPool: RecycledViewPool,
     private val adapterDelegates: List<AdapterDelegate<*, *>>
 ) : AdapterDelegate<CommunitiesDetailedBinding, CommunitiesHolder>() {
     private val diffUtil by lazy {
@@ -42,7 +41,7 @@ class HorizontalScrollDelegateAdapter(
         parent: ViewGroup
     ): BaseViewHolder<CommunitiesDetailedBinding, CommunitiesHolder> {
         return HorizontalBunchOfCommunitiesViewHolder(
-            CommunitiesDetailedBinding.inflate(inflater), adapterDelegates, recycledViewPool
+            CommunitiesDetailedBinding.inflate(inflater), adapterDelegates
         )
     }
 

@@ -21,7 +21,7 @@ class CommunitySwipeToDismiss(
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        onItemRemoved(viewHolder.adapterPosition)
+        onItemRemoved(viewHolder.bindingAdapterPosition)
     }
 
     override fun getSwipeDirs(

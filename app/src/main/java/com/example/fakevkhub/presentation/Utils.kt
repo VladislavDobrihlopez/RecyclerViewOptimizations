@@ -40,7 +40,7 @@ fun RecyclerView.onRestoreState(state: Parcelable?) {
 
 fun getRandomCommunities(context: Context): List<Item> {
     val items = mutableListOf<Item>()
-    (1..30).forEach { index ->
+    (1..25).forEach { index ->
         items.add(getRandomUserPost(index, context))
     }
     return items
@@ -50,7 +50,7 @@ fun getRandomFeed(context: Context): List<Item> {
     val items = mutableListOf<Item>()
     (1..25).forEach { index ->
         val item = when (index) {
-            2, 5, 7, 10, 15, 20, 12, 25 -> getRandomHorizontalItems(rvIndex = index, context)
+            2, 5, 7, 10, 15, 20, 12, 25 -> getRandomHorizontalItems(rvIndex = index * 10, context)
             1, 4, 6, 9, 14, 19, 11, 24 -> getRandomTitle()
             else -> getRandomUserPost(-index, context)
         }
@@ -77,7 +77,7 @@ fun getRandomUserPost(index: Int, context: Context) = CommunityUiModel(
 )
 
 fun getRandomDetailedPost(rvIndex: Int, index: Int) = DetailedCommunityUiModel(
-    id = rvIndex * 1000 + index ,
+    id = rvIndex * 10000 + index ,
     backgroundImageUrl = colors.random().toString(),
     groupImageUrl = logoImages.random().toString(),
     name = "Some name: $index",

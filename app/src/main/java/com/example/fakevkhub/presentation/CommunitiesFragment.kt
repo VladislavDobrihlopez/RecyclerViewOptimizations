@@ -74,7 +74,6 @@ class CommunitiesFragment : Fragment() {
             listOf(
                 FollowedCommunitiesDelegateAdapter(::changeItemLikeStatus2),
                 HorizontalScrollDelegateAdapter(
-                    sharedPool,
                     listOf(
                         DetailedCommunitiesDelegateAdapter(
                             ::onFollowed,
@@ -109,9 +108,10 @@ class CommunitiesFragment : Fragment() {
 
     private fun initSwipeToDelete() {
         val swipeToDelete = CommunitySwipeToDismiss { idForItemGoingToBeRemoved ->
-            val old = adapter2.currentList.toMutableList()
-            val item = old.removeAt(idForItemGoingToBeRemoved)
-            adapter2.submitList(old.toList())
+            Log.d("TEST_RECYCLER", "${screenFeed.filterIsInstance(CommunitiesHolder::class.java)}\n${idForItemGoingToBeRemoved}")
+            val item = screenFeed[idForItemGoingToBeRemoved]
+            screenFeed.removeAt(idForItemGoingToBeRemoved)
+            adapter2.submitList(screenFeed.toList())
             suggestRestoringItem(item, idForItemGoingToBeRemoved)
         }
 
@@ -121,9 +121,8 @@ class CommunitiesFragment : Fragment() {
     private fun suggestRestoringItem(item: Item, position: Int) {
         Snackbar.make(binding.recyclerViewTopOfTheDay, "You can restore item", Snackbar.LENGTH_LONG)
             .setAction("Undo") {
-                val old = adapter2.currentList.toMutableList()
-                old.add(element = item, index = position)
-                adapter2.submitList(old.toList())
+                screenFeed.add(position, item)
+                adapter2.submitList(screenFeed.toList())
             }
             .show()
     }
@@ -140,6 +139,8 @@ class CommunitiesFragment : Fragment() {
     }
 
     private fun onFollowed(item: DetailedCommunityUiModel) {
+        Log.d("TEST_RECYCLER", "${screenFeed.filterIsInstance(CommunitiesHolder::class.java)}\n")
+
         val holder = screenFeed
             .filterIsInstance<CommunitiesHolder>()
             .find { it.communities.contains(item) }
@@ -148,7 +149,7 @@ class CommunitiesFragment : Fragment() {
         val communityPosition = holder.communities.indexOf(item)
         val newCommunity = item.copy(
             isFollowed = !item.isFollowed,
-            buttonDrawableResId = if (!item.isFollowed) {
+            buttonDrawableResId = if (item.isFollowed) {
                 R.drawable.dadac
             } else {
                 R.drawable.galka

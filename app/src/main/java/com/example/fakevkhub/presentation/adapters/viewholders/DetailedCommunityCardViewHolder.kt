@@ -1,7 +1,5 @@
 package com.example.fakevkhub.presentation.adapters.viewholders
 
-import android.graphics.Color
-import androidx.core.content.ContextCompat
 import com.example.fakevkhub.R
 import com.example.fakevkhub.databinding.DetailedCommunityItemBinding
 import com.example.fakevkhub.presentation.adapters.PayloadChange
