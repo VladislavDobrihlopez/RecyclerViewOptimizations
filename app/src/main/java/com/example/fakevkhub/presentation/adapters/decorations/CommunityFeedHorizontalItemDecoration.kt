@@ -4,7 +4,7 @@ import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-class HorizontalItemDecoration(
+class CommunityFeedHorizontalItemDecoration(
     private val divider: Int,
     private val excludedViewTypes: List<Int> = listOf()
 ) : RecyclerView.ItemDecoration() {
@@ -19,17 +19,12 @@ class HorizontalItemDecoration(
         if (excludedViewTypes.contains(parent.getChildViewHolder(view).itemViewType)) {
             return
         }
-//        if (viewType != parent.getChildViewHolder(view).itemViewType) {
-//            return
-//        }
 
-        val oneSideVerticalPadding = divider / 2
+        val horizontal = divider / 2
 
         outRect.apply {
-            top = oneSideVerticalPadding
-            bottom = oneSideVerticalPadding
-            left = oneSideVerticalPadding * 2
-            right = oneSideVerticalPadding * 2
+            left = horizontal
+            right = horizontal
         }
     }
 }

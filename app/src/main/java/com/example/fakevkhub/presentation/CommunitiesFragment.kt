@@ -1,7 +1,6 @@
 package com.example.fakevkhub.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fakevkhub.R
 import com.example.fakevkhub.databinding.FragmentCommunitiesBinding
 import com.example.fakevkhub.presentation.adapters.FollowedCommunitiesAdapter
-import com.example.fakevkhub.presentation.adapters.decorations.HorizontalItemDecoration
+import com.example.fakevkhub.presentation.adapters.decorations.CommunityFeedHorizontalItemDecoration
+import com.example.fakevkhub.presentation.adapters.decorations.VerticalItemDecoration
 import com.example.fakevkhub.presentation.adapters.delegates.DetailedCommunitiesDelegateAdapter
 import com.example.fakevkhub.presentation.adapters.delegates.FollowedCommunitiesDelegateAdapter
 import com.example.fakevkhub.presentation.adapters.delegates.HorizontalScrollDelegateAdapter
@@ -38,7 +38,6 @@ class CommunitiesFragment : Fragment() {
         myCommunities.clear()
         myCommunities.addAll(getRandomCommunities(requireContext()))
         screenFeed.addAll(getRandomFeed(requireContext()))
-        Log.d("COMMUNITIES_FRAGMENT", "fragment created")
     }
 
     override fun onCreateView(
@@ -51,7 +50,6 @@ class CommunitiesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setupScrollableLists()
-        //doServerResponse()
         adapter1.submitList(myCommunities.toList())
         adapter2.submitList(screenFeed.toList())
     }
@@ -86,18 +84,24 @@ class CommunitiesFragment : Fragment() {
         )
         binding.recyclerViewFollowedCommunities.setRecycledViewPool(sharedPool)
         binding.recyclerViewTopOfTheDay.setRecycledViewPool(sharedPool)
-        binding.recyclerViewFollowedCommunities.addItemDecoration(HorizontalItemDecoration(36))
-        binding.recyclerViewTopOfTheDay.addItemDecoration(
-            HorizontalItemDecoration(
-                36,
-                listOf(R.layout.communities_detailed)
+        binding.recyclerViewFollowedCommunities.apply {
+            addItemDecoration(CommunityFeedHorizontalItemDecoration(36))
+            addItemDecoration(VerticalItemDecoration(24, 36))
+        }
+        binding.recyclerViewTopOfTheDay.apply {
+            addItemDecoration(
+                CommunityFeedHorizontalItemDecoration(
+                    72,
+                    listOf(R.layout.communities_detailed)
+                )
             )
-        )
+            addItemDecoration(VerticalItemDecoration(24, 12))
+        }
         binding.recyclerViewFollowedCommunities.adapter = adapter1
         binding.recyclerViewTopOfTheDay.adapter = adapter2
 
         initSwipeToDelete()
-//        fixBlinking()
+        //fixBlinking()
     }
 
     //first solution
@@ -108,7 +112,6 @@ class CommunitiesFragment : Fragment() {
 
     private fun initSwipeToDelete() {
         val swipeToDelete = CommunitySwipeToDismiss { idForItemGoingToBeRemoved ->
-            Log.d("TEST_RECYCLER", "${screenFeed.filterIsInstance(CommunitiesHolder::class.java)}\n${idForItemGoingToBeRemoved}")
             val item = screenFeed[idForItemGoingToBeRemoved]
             screenFeed.removeAt(idForItemGoingToBeRemoved)
             adapter2.submitList(screenFeed.toList())
@@ -130,17 +133,13 @@ class CommunitiesFragment : Fragment() {
     private fun changeItemLikeStatus1(item: CommunityUiModel) {
         val index = adapter1.currentList.toMutableList().indexOf(item)
         requestItemStateChanges1(index, item)
-//        adapter1.notifyItemChanged(index)
     }
 
     private fun changeItemLikeStatus2(item: CommunityUiModel) {
         requestItemStateChanges2(item)
-//        adapter2.notifyItemChanged(index)
     }
 
     private fun onFollowed(item: DetailedCommunityUiModel) {
-        Log.d("TEST_RECYCLER", "${screenFeed.filterIsInstance(CommunitiesHolder::class.java)}\n")
-
         val holder = screenFeed
             .filterIsInstance<CommunitiesHolder>()
             .find { it.communities.contains(item) }
@@ -175,11 +174,7 @@ class CommunitiesFragment : Fragment() {
     }
 
     private fun requestItemStateChanges2(item: CommunityUiModel) {
-        Log.d("TEST_CRASH", "searching for: $item")
-
         val index = screenFeed.indexOf(item)
-
-        Log.d("TEST_CRASH", "$index \n$item")
 
         val newItem =
             item.copy(
@@ -189,7 +184,6 @@ class CommunitiesFragment : Fragment() {
 
         screenFeed.removeAt(index)
         screenFeed.add(index, newItem)
-        Log.d("TEST_CRASH", "before submitting: $newItem")
 
         adapter2.submitList(screenFeed.toList())
     }

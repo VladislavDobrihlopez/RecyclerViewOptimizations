@@ -53,6 +53,4 @@ class DetailedCommunitiesAdapter(
     override fun onViewDetachedFromWindow(holder: BaseViewHolder<ViewBinding, Item>) {
         holder.onViewDetached()
     }
-
-
 }

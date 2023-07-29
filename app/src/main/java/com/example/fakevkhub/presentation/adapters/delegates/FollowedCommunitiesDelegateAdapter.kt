@@ -36,7 +36,6 @@ class FollowedCommunitiesDelegateAdapter(
                 oldItem: CommunityUiModel,
                 newItem: CommunityUiModel
             ): Any? {
-                Log.d("TEST_PAYLOAD", "getChangePayload: \n$oldItem\n$newItem")
                 return if (oldItem.isFavorite != newItem.isFavorite) {
                     FollowedCommunitiesPayloads.Like(newItem.isFavorite)
                 } else {
