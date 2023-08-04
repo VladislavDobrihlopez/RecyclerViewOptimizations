@@ -1,9 +1,18 @@
 package com.example.fakevkhub.presentation
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
+import android.animation.PropertyValuesHolder
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.animation.addListener
+import androidx.core.view.marginBottom
+import androidx.core.view.marginEnd
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -26,11 +35,26 @@ class CommunitiesFragment : Fragment() {
     private lateinit var adapter1: FollowedCommunitiesAdapter
     private lateinit var adapter2: FollowedCommunitiesAdapter
     private var _binding: FragmentCommunitiesBinding? = null
-    private val binding: FragmentCommunitiesBinding
-        get() = _binding ?: throw IllegalStateException("FragmentCommunitiesBinding is null")
-
+    private val binding get() = requireNotNull(_binding)
     private val myCommunities = mutableListOf<Item>()
     private val screenFeed = mutableListOf<Item>()
+    private var fabState = FabAction.CREATE_COMMUNITY
+    private val resButtonIconWhenScrollingUp by lazy {
+        AppCompatResources.getDrawable(requireContext(), R.drawable.baseline_arrow_upward_24)
+    }
+    private val resButtonIconWhenCreatingCommunity by lazy {
+        AppCompatResources.getDrawable(requireContext(), R.drawable.baseline_add_24)
+    }
+
+    private var navigationListener: CommunitiesNavigationListener? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        if (context is MainActivity) {
+            navigationListener = context
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +73,9 @@ class CommunitiesFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.fabAction.setImageDrawable(resButtonIconWhenCreatingCommunity)
         setupScrollableLists()
+        initListeners()
         adapter1.submitList(myCommunities.toList())
         adapter2.submitList(screenFeed.toList())
     }
@@ -69,7 +95,8 @@ class CommunitiesFragment : Fragment() {
             listOf(FollowedCommunitiesDelegateAdapter(::changeItemLikeStatus1, 730))
         )
 
-        adapter1.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+        adapter1.stateRestorationPolicy =
+            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
         adapter2 = FollowedCommunitiesAdapter(
             listOf(
@@ -85,7 +112,8 @@ class CommunitiesFragment : Fragment() {
                 SectionNameDelegateAdapter()
             )
         )
-        adapter2.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+        adapter2.stateRestorationPolicy =
+            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
         binding.recyclerViewFollowedCommunities.setRecycledViewPool(sharedPool)
         binding.recyclerViewRecommendationFeed.setRecycledViewPool(sharedPool)
@@ -126,8 +154,111 @@ class CommunitiesFragment : Fragment() {
         ItemTouchHelper(swipeToDelete).attachToRecyclerView(binding.recyclerViewRecommendationFeed)
     }
 
+    private fun initListeners() {
+        binding.fabAction.setOnClickListener {
+            when (fabState) {
+                FabAction.CREATE_COMMUNITY -> {
+                    handleNavigatingAnimation {
+                        navigationListener?.navigateToCommunityCreatorScreen()
+                    }
+                }
+
+                FabAction.SCROLL_UP -> {
+                    binding.nestedScrollView.smoothScrollTo(0, 0)
+                }
+            }
+        }
+
+        binding.nestedScrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            Log.d(TAG, "initListeners: $scrollY $oldScrollY $scrollX")
+            if (scrollY != oldScrollY) {
+
+                val fabStateGoingToBe = if (Math.abs(scrollY - oldScrollY) >= 15 || scrollY == 0) {
+                    if (scrollY > oldScrollY || scrollY == 0) { // scrolling down
+                        FabAction.CREATE_COMMUNITY
+                    } else {
+                        FabAction.SCROLL_UP
+                    }
+                } else return@setOnScrollChangeListener
+
+                if (fabStateGoingToBe != fabState) {
+                    fabState = fabStateGoingToBe
+
+                    val fabAnimFirstPart = ObjectAnimator.ofFloat(
+                        binding.fabAction,
+                        View.ROTATION_Y,
+                        0f,
+                        90f
+                    ).apply {
+                        addListener(onEnd = {
+                            binding.fabAction.setImageDrawable(
+                                if (fabState == FabAction.CREATE_COMMUNITY)
+                                    resButtonIconWhenCreatingCommunity
+                                else
+                                    resButtonIconWhenScrollingUp
+                            )
+                        })
+                    }
+
+                    val fabAnimSecondPart = ObjectAnimator.ofFloat(
+                        binding.fabAction,
+                        View.ROTATION_Y,
+                        90f,
+                        180f
+                    )
+
+                    AnimatorSet().apply {
+                        duration = 250
+                        playSequentially(fabAnimFirstPart, fabAnimSecondPart)
+                    }.start()
+                }
+            }
+        }
+    }
+
+    private fun handleNavigatingAnimation(navigate: () -> Unit) {
+        with(binding) {
+            val parent = fabAction.parent as ViewGroup
+            val offsetX = fabAction.marginEnd + (fabAction.width / 2f) - (parent.width / 2f)
+            val offsetY = fabAction.marginBottom + (fabAction.height / 2f) - (parent.height / 2f)
+
+            val translationOperations = ObjectAnimator.ofPropertyValuesHolder(
+                fabAction,
+                PropertyValuesHolder.ofFloat(View.TRANSLATION_X, offsetX),
+                PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, offsetY)
+            )
+
+            val scaleOperation = ObjectAnimator.ofPropertyValuesHolder(
+                fabAction,
+                PropertyValuesHolder.ofFloat(View.SCALE_X, 17f),
+                PropertyValuesHolder.ofFloat(View.SCALE_Y, 17f),
+            )
+
+            val firstPart = AnimatorSet().apply {
+                duration = 350
+                play(translationOperations)
+            }
+
+            val middlePart = AnimatorSet().apply {
+                duration = 350
+                play(scaleOperation)
+                addListener(onEnd = {
+                    navigate()
+                })
+            }
+
+            AnimatorSet().apply {
+                playSequentially(firstPart, middlePart)
+            }.start()
+        }
+    }
+
     private fun suggestRestoringItem(item: Item, position: Int) {
-        Snackbar.make(binding.recyclerViewRecommendationFeed, "You can restore item", Snackbar.LENGTH_LONG)
+        Snackbar.make(
+            binding.recyclerViewRecommendationFeed,
+            "You can restore item",
+            Snackbar.LENGTH_LONG
+        )
             .setAction("Undo") {
                 screenFeed.add(position, item)
                 adapter2.submitList(screenFeed.toList())
@@ -193,9 +324,19 @@ class CommunitiesFragment : Fragment() {
         adapter2.submitList(screenFeed.toList())
     }
 
+    enum class FabAction {
+        CREATE_COMMUNITY,
+        SCROLL_UP
+    }
+
     companion object {
+        const val TAG = "COMMUNITIES_FRAGMENT"
         fun newInstance(): CommunitiesFragment {
             return CommunitiesFragment()
         }
     }
+}
+
+interface CommunitiesNavigationListener {
+    fun navigateToCommunityCreatorScreen()
 }
