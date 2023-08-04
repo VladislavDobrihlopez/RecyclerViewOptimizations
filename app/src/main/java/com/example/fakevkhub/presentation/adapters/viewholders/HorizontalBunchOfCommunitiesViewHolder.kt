@@ -16,6 +16,7 @@ class HorizontalBunchOfCommunitiesViewHolder(
     private val _adapter = DetailedCommunitiesAdapter(adapterDelegates)
 
     init {
+        _adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
         with(binding.recyclerViewHorizontalItems) {
             adapter = _adapter
             layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false).also {

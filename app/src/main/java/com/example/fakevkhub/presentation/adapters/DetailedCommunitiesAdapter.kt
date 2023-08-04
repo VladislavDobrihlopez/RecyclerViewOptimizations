@@ -1,11 +1,11 @@
 package com.example.fakevkhub.presentation.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.viewbinding.ViewBinding
 import com.example.fakevkhub.presentation.adapters.delegates.AdapterDelegate
-import com.example.fakevkhub.presentation.adapters.delegates.FollowedCommunitiesDelegateAdapter
 import com.example.fakevkhub.presentation.adapters.viewholders.BaseViewHolder
 import com.example.fakevkhub.presentation.uimodels.Item
 
@@ -26,6 +26,7 @@ class DetailedCommunitiesAdapter(
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<ViewBinding, Item>, position: Int) {
+        Log.d("onBindViewHolder", "first")
         holder.onBind(currentList[position])
     }
 
@@ -35,7 +36,7 @@ class DetailedCommunitiesAdapter(
         payloads: MutableList<Any>
     ) {
         if (payloads.isEmpty()) {
-            super.onBindViewHolder(holder, position, payloads)
+           super.onBindViewHolder(holder, position, payloads)
         } else {
             holder.onBind(currentList[position], payloads)
         }

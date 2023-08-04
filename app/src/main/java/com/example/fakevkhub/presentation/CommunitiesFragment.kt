@@ -68,6 +68,9 @@ class CommunitiesFragment : Fragment() {
         adapter1 = FollowedCommunitiesAdapter(
             listOf(FollowedCommunitiesDelegateAdapter(::changeItemLikeStatus1, 730))
         )
+
+        adapter1.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+
         adapter2 = FollowedCommunitiesAdapter(
             listOf(
                 FollowedCommunitiesDelegateAdapter(::changeItemLikeStatus2),
@@ -82,13 +85,15 @@ class CommunitiesFragment : Fragment() {
                 SectionNameDelegateAdapter()
             )
         )
+        adapter2.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+
         binding.recyclerViewFollowedCommunities.setRecycledViewPool(sharedPool)
-        binding.recyclerViewTopOfTheDay.setRecycledViewPool(sharedPool)
+        binding.recyclerViewRecommendationFeed.setRecycledViewPool(sharedPool)
         binding.recyclerViewFollowedCommunities.apply {
             addItemDecoration(CommunityFeedHorizontalItemDecoration(36))
             addItemDecoration(VerticalItemDecoration(24, 36))
         }
-        binding.recyclerViewTopOfTheDay.apply {
+        binding.recyclerViewRecommendationFeed.apply {
             addItemDecoration(
                 CommunityFeedHorizontalItemDecoration(
                     72,
@@ -98,7 +103,7 @@ class CommunitiesFragment : Fragment() {
             addItemDecoration(VerticalItemDecoration(24, 12))
         }
         binding.recyclerViewFollowedCommunities.adapter = adapter1
-        binding.recyclerViewTopOfTheDay.adapter = adapter2
+        binding.recyclerViewRecommendationFeed.adapter = adapter2
 
         initSwipeToDelete()
         //fixBlinking()
@@ -107,7 +112,7 @@ class CommunitiesFragment : Fragment() {
     //first solution
     private fun fixBlinking() {
         binding.recyclerViewFollowedCommunities.adapter = null
-        binding.recyclerViewTopOfTheDay.itemAnimator = null
+        binding.recyclerViewRecommendationFeed.itemAnimator = null
     }
 
     private fun initSwipeToDelete() {
@@ -118,11 +123,11 @@ class CommunitiesFragment : Fragment() {
             suggestRestoringItem(item, idForItemGoingToBeRemoved)
         }
 
-        ItemTouchHelper(swipeToDelete).attachToRecyclerView(binding.recyclerViewTopOfTheDay)
+        ItemTouchHelper(swipeToDelete).attachToRecyclerView(binding.recyclerViewRecommendationFeed)
     }
 
     private fun suggestRestoringItem(item: Item, position: Int) {
-        Snackbar.make(binding.recyclerViewTopOfTheDay, "You can restore item", Snackbar.LENGTH_LONG)
+        Snackbar.make(binding.recyclerViewRecommendationFeed, "You can restore item", Snackbar.LENGTH_LONG)
             .setAction("Undo") {
                 screenFeed.add(position, item)
                 adapter2.submitList(screenFeed.toList())

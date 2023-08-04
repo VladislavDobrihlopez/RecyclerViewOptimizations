@@ -32,16 +32,16 @@ class VerticalItemDecoration(
 
         parent.adapter?.let { adapter ->
             outRect.apply {
-                bottom = if (adapter.isNextViewOfTheSameType(currentPosition, viewType)|| adapter.isNextViewOfTheSameType(currentPosition, R.layout.section)) {
+                bottom = //if (adapter.isNextViewOfTheSameType(currentPosition, viewType)|| adapter.isNextViewOfTheSameType(currentPosition, R.layout.section)) {
                     innerVerticalDivider
-                } else {
-                    outerDivider
-                }
-                top = if (adapter.isPreviousViewOfTheSameType(currentPosition, viewType)|| adapter.isPreviousViewOfTheSameType(currentPosition, R.layout.section)) {
+                //} else {
+                    //outerDivider
+               // }
+                top = //if (adapter.isPreviousViewOfTheSameType(currentPosition, viewType)|| adapter.isPreviousViewOfTheSameType(currentPosition, R.layout.section)) {
                     innerVerticalDivider
-                } else {
-                    outerDivider
-                }
+                //} else {
+                //    outerDivider
+                //}
             }
         }
     }

@@ -1,8 +1,7 @@
 package com.example.fakevkhub.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import com.example.fakevkhub.R
 
 class MainActivity : AppCompatActivity() {
