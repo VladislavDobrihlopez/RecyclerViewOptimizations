@@ -9,11 +9,11 @@ import android.text.SpannableStringBuilder
 import android.text.style.StyleSpan
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fakevkhub.R
-import com.example.fakevkhub.presentation.uimodels.CommunitiesHolder
-import com.example.fakevkhub.presentation.uimodels.CommunityUiModel
-import com.example.fakevkhub.presentation.uimodels.DetailedCommunityUiModel
-import com.example.fakevkhub.presentation.uimodels.Item
-import com.example.fakevkhub.presentation.uimodels.SectionInfo
+import com.example.fakevkhub.presentation.community_screen.uimodels.CommunitiesHolder
+import com.example.fakevkhub.presentation.community_screen.uimodels.CommunityUiModel
+import com.example.fakevkhub.presentation.community_screen.uimodels.DetailedCommunityUiModel
+import com.example.fakevkhub.presentation.community_screen.uimodels.Item
+import com.example.fakevkhub.presentation.community_screen.uimodels.SectionInfo
 import kotlin.random.Random
 
 fun RecyclerView.Adapter<*>.isPreviousViewOfTheSameType(currentAdapterPosition: Int, viewType: Int): Boolean {

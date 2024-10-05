@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="225dp"
+    app:cardCornerRadius="24dp"
+    app:cardElevation="2dp"
+    app:cardUseCompatPadding="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="125dp"
+            app:layout_constraintBottom_toTopOf="@id/buttonOkay"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/textViewDescription"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:text="launchMode:
+1. Standart - новый экземпляр в стеке. Activity может быть в стеке несколько раз
+A - B - C - C - C
+2. SingleTop - может несколько в стеке. Новая запись создается только если Activity не в вершине.
+A - B - C- newIntent()
+3. SingleTask - только один экземпляр может быть в стеке. Ищет активити и выводит в топ закрывая до нее.
+4. SingleInstance - тоже что SingleTask. Но будет всегда создаваться отдельный таски она будет в нем корневой.
+
+
+
+Флаги:
+1. New_task - singleTask
+2. SingleTop - если активити запускает сама себя, то вместо нового экземпляра в стеке вызовется onNewIntent().
+3. ClearTop - все активити до разрушаются и она становится в вершине." />
+        </ScrollView>
+
+        <Button
+            android:id="@+id/buttonOkay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/okay"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
